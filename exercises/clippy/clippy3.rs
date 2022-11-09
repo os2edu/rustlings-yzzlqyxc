@@ -5,7 +5,7 @@
 fn main() {
     let my_option: Option<()> = None;
     if my_option.is_none() {
-        todo!();
+        println!("this is None");
     }
 
     let my_arr = &[
