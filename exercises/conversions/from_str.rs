@@ -8,6 +8,7 @@
 
 use std::num::ParseIntError;
 use std::str::FromStr;
+use std::string::ParseError;
 
 #[derive(Debug, PartialEq)]
 struct Person {
@@ -28,8 +29,6 @@ enum ParsePersonError {
     ParseInt(ParseIntError),
 }
 
-// I AM NOT DONE
-
 // Steps:
 // 1. If the length of the provided string is 0, an error should be returned
 // 2. Split the given string on the commas present in it
@@ -46,6 +45,34 @@ enum ParsePersonError {
 impl FromStr for Person {
     type Err = ParsePersonError;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        if s.len() == 0 {
+            return Err(ParsePersonError::Empty);
+        }
+
+        let t: Vec<&str> = s.split(",").collect();
+        if t.len() != 2 {
+            return Err(ParsePersonError::BadLen);
+        }
+
+        if t[0].len() == 0 {
+            return Err(ParsePersonError::NoName);
+        }
+        let name = t[0].clone().to_string();
+        let res = t[1].parse::<usize>();
+
+        match res {
+            Ok(age) => {
+                Ok(Person {
+                    name,
+                    age
+                })
+            },
+            Err(i) => {
+                Err(ParsePersonError::ParseInt(i))
+            }
+
+        }
+
     }
 }
 

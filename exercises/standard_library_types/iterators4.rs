@@ -1,7 +1,28 @@
 // iterators4.rs
 // Execute `rustlings hint iterators4` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
+struct Fact {
+    cnt : u64,
+    ans : u64
+}
+
+impl Fact {
+    fn new() -> Fact {
+        Fact {
+            cnt : 0,
+            ans : 1
+        }
+    }
+}
+
+impl Iterator for Fact {
+    type Item = u64;
+    fn next(&mut self) -> Option<Self::Item> {
+        self.cnt += 1;
+        self.ans *= self.cnt;
+        Some(self.ans)
+    }
+}
 
 pub fn factorial(num: u64) -> u64 {
     // Complete this function to return the factorial of num
@@ -13,6 +34,13 @@ pub fn factorial(num: u64) -> u64 {
     // For an extra challenge, don't use:
     // - recursion
     // Execute `rustlings hint iterators4` for hints.
+    let mut t = Fact::new();
+    let mut i = 0;
+    while i < num {
+        t.next();
+        i += 1;
+    }
+    t.ans
 }
 
 #[cfg(test)]
